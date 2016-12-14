@@ -1,0 +1,44 @@
+{
+  "name": "npm-starter",
+  "version": "0.3.0",
+  "description": "project starter for npm module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha",
+    "compile": "gulp compile",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haoliangyu/npm-module-starter.git"
+  },
+  "keywords": [
+    "npm",
+    "starter"
+  ],
+  "author": "Haoliang Yu <haholiang.yu@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haoliangyu/npm-module-starter/issues"
+  },
+  "homepage": "https://github.com/haoliangyu/npm-module-starter#readme",
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.12.1",
+    "eslint-plugin-json": "^1.2.0",
+    "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-optimize-js": "^1.1.0",
+    "gulp-spawn-mocha": "^3.1.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^2.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-stream": "^1.14.0",
+    "run-sequence": "^1.2.2",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

@@ -9,9 +9,11 @@ const source = require("vinyl-source-stream");
 const babel = require("rollup-plugin-babel");
 const streamify = require('gulp-streamify');
 const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
 
 const scripts = {
   entry: 'src/index.js',
+  src: 'src/**/*.js',
   test: 'test/**/*.js',
   dist: 'dist'
 };
@@ -20,7 +22,7 @@ const scripts = {
  * Compile
  */
 
-gulp.task('compile', () => {
+gulp.task('babel', () => {
   let stream = rollup({
 		entry: scripts.entry,
 		format: "cjs",
@@ -37,17 +39,23 @@ gulp.task('compile', () => {
   })
   .pipe(source('geojson-offset.js'))
   .pipe(streamify(optimizejs()))
-  .pipe(streamify(uglify()))
   .pipe(gulp.dest(scripts.dist))
 
   return stream;
+});
+
+gulp.task('uglify', () => {
+  return gulp.src(scripts.dist + '/geojson-offset.js')
+    .pipe(uglify())
+    .pipe(rename('.geojson-offset.min.js'))
+    .pipe(gulp.dest(scripts.dist));
 });
 
 /**
  * Testing
  */
 
-gulp.task('test', function() {
+gulp.task('test', () => {
   return gulp.src(scripts.test)
     .pipe(mocha({
       istanbul: { report: 'none' }
@@ -92,6 +100,10 @@ addWatchTask('watch-test', scripts.test, ['eslint-test', 'test']);
 /**
  * Tasks
  */
+
+gulp.task('compile', () => {
+  runSequence('babel', 'uglify');
+})
 
 gulp.task('watch', ['watch-src', 'watch-test']);
 gulp.task('default', ['watch']);

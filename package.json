@@ -1,7 +1,7 @@
 {
-  "name": "npm-starter",
-  "version": "0.3.0",
-  "description": "project starter for npm module",
+  "name": "geojson-offset",
+  "version": "0.1.0",
+  "description": "Add offset to the coordinates of GeoJSON",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha",
@@ -10,27 +10,28 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/haoliangyu/npm-module-starter.git"
+    "url": "git+https://github.com/haoliangyu/geojson-offset.git"
   },
   "keywords": [
-    "npm",
-    "starter"
+    "geojson",
+    "coordinate",
+    "offset"
   ],
   "author": "Haoliang Yu <haholiang.yu@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/haoliangyu/npm-module-starter/issues"
+    "url": "https://github.com/haoliangyu/geojson-offset/issues"
   },
-  "homepage": "https://github.com/haoliangyu/npm-module-starter#readme",
+  "homepage": "https://github.com/haoliangyu/geojson-offset#readme",
   "devDependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",
     "chai": "^3.5.0",
     "eslint": "^3.12.1",
-    "eslint-plugin-json": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.1",
     "gulp-eslint": "^3.0.1",
     "gulp-optimize-js": "^1.1.0",
+    "gulp-rename": "^1.2.2",
     "gulp-spawn-mocha": "^3.1.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^2.0.0",
@@ -40,5 +41,6 @@
     "rollup-stream": "^1.14.0",
     "run-sequence": "^1.2.2",
     "vinyl-source-stream": "^1.1.0"
-  }
+  },
+  "dependencies": {}
 }

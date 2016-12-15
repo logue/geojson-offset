@@ -47,7 +47,7 @@ gulp.task('babel', () => {
 gulp.task('uglify', () => {
   return gulp.src(scripts.dist + '/geojson-offset.js')
     .pipe(uglify())
-    .pipe(rename('.geojson-offset.min.js'))
+    .pipe(rename('geojson-offset.min.js'))
     .pipe(gulp.dest(scripts.dist));
 });
 

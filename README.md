@@ -10,7 +10,7 @@ npm install geojson-offset
 
 ## Usage
 
-Noted this function will **MUTE** the input geojson. If there is a need to return a copy of original geojson, please let me know by openning an issue.
+Noted this function will **UPDATE** the input geojson. If there is a need to return a copy of original geojson, please let me know by openning an issue.
 
 `geojson-offset` supports all GeoJSON types:
 

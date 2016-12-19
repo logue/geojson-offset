@@ -17,20 +17,20 @@ exports.randomOffset = randomOffset;
 function offset(geojson, xOffset, yOffset) {
   if (geojson.type === 'Point') {
     pointOffset(geojson.coordinates, xOffset, yOffset);
-  } else if (geojson.type === 'MultiPoint' || geojson.type === 'LineSTring') {
+  } else if (geojson.type === 'MultiPoint' || geojson.type === 'LineString') {
     lineStringOffset(geojson.coordinates, xOffset, yOffset);
   } else if (geojson.type === 'MultiLineString' || geojson.type === 'Polygon') {
     polygonOffset(geojson.coordinates, xOffset, yOffset);
   } else if (geojson.type === 'MultiPolygon') {
-    geojson.coordinates.forEach(polygon => polygonOffset(polygon));
+    geojson.coordinates.forEach(polygon => polygonOffset(polygon, xOffset, yOffset));
   } else if (geojson.type === 'Feature') {
-    offset(geojson.geometry);
+    offset(geojson.geometry, xOffset, yOffset);
   } else if (geojson.type === 'FeatureCollection') {
-    geojson.features.forEach(feature => offset(feature));
+    geojson.features.forEach(feature => offset(feature, xOffset, yOffset));
   }
 
   return geojson;
-};
+}
 
 function randomOffset(geojson, xRange, yRange) {
   let xOffset = xRange[0] + (xRange[1] - xRange[0]) * Math.random();
@@ -45,9 +45,9 @@ function pointOffset(coordinates, x, y) {
 }
 
 function lineStringOffset(coordinates, x, y) {
-  coordinates.forEach(point => pointOffset(point));
+  coordinates.forEach(point => pointOffset(point, x, y));
 }
 
 function polygonOffset(coordinates, x, y) {
-  coordinates.forEach(line => lineStringOffset(line));
+  coordinates.forEach(line => lineStringOffset(line, x, y));
 }

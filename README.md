@@ -1,32 +1,39 @@
-# geojson-offset
+# geojson-offset-ts
 
-Add coordinate offest to the GeoJSON
+Add coordinate offest to the GeoJSON.
+This fork is rewritten in typescript.
 
 ## Installation
 
-``` bash
-npm install geojson-offset
+```bash
+npm install geojson-offset-ts
+```
+
+```bash
+yarn add geojson-offset-ts
 ```
 
 ## Usage
 
 Noted this function will **UPDATE** the input geojson. If there is a need to return a copy of original geojson, please let me know by openning an issue.
 
-`geojson-offset` supports all GeoJSON types:
+`geojson-offset-ts` supports all GeoJSON types:
 
-* FeatureCollection
-* Feature
-* Geometery
-  * Point
-  * MultiPoint
-  * LineString
-  * MultiLineString
-  * Polygon
-  * MultiPolygon
+- FeatureCollection
+- Feature
+- Geometery
+  - Point
+  - MultiPoint
+  - LineString
+  - MultiLineString
+  - Polygon
+  - MultiPolygon
 
-``` javascript
-const offset = require('geojson-offset').offset;
-const randomOffset = require('geojson-offset').randomOffset;
+But [TopoJSON](https://github.com/topojson/topojson) does not supported. Please convert to geojson by `topojson.feature` before use.
+
+```javascript
+import { offset } from 'geojson-offset';
+import { randomOffset } from 'geojson-offset';
 
 let geojson = {
   type: 'FeatureCollection',
@@ -35,11 +42,11 @@ let geojson = {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [-78, 48]
+        coordinates: [-78, 48],
       },
-      properties: {}
-    }
-  ]
+      properties: {},
+    },
+  ],
 };
 
 /**

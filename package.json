@@ -1,17 +1,20 @@
 {
-  "name": "geojson-offset",
-  "version": "0.1.0",
-  "description": "Add offset to the coordinates of GeoJSON",
-  "main": "dist/geojson-offset.js",
-  "scripts": {
-    "test": "mocha",
-    "compile": "gulp compile",
-    "prepublish": "npm run compile"
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "geojson-offset-ts",
+  "version": "0.1.1",
+  "description": "Add offset to the coordinates of GeoJSON.",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/geojson-offset.umd.js",
+  "module": "./dist/geojson-offset.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/geojson-offset.es.js",
+      "require": "./dist/geojson-offset.umd.js"
+    }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/haoliangyu/geojson-offset.git"
-  },
+  "types": "./dist/geojson-offset.d.ts",
   "keywords": [
     "geojson",
     "feature",
@@ -19,30 +22,71 @@
     "coordinate",
     "offset"
   ],
-  "author": "Haoliang Yu <haholiang.yu@outlook.com>",
-  "license": "MIT",
+  "author": {
+    "name": "Haoliang Yu",
+    "email": "haholiang.yu@outlook.com"
+  },
+  "contributors": [
+    {
+      "name": "Logue",
+      "email": "logue@hotmail.co.jp",
+      "url": "https://logue.dev"
+    }
+  ],
+  "homepage": "https://github.com/logue/geojson-offset",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:logue/geojson-offset.git"
+  },
   "bugs": {
-    "url": "https://github.com/haoliangyu/geojson-offset/issues"
+    "url": "https://github.com/logue/geojson-offset/issues"
   },
-  "homepage": "https://github.com/haoliangyu/geojson-offset#readme",
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "vite build && tsc",
+    "build:clean": "rimraf dist",
+    "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
+    "test": "vite --config vite.config.test.ts",
+    "prepare": "husky install"
+  },
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "chai": "^3.5.0",
-    "eslint": "^3.12.1",
-    "gulp": "^3.9.1",
-    "gulp-cached": "^1.1.1",
-    "gulp-eslint": "^3.0.1",
-    "gulp-optimize-js": "^1.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-spawn-mocha": "^3.1.0",
-    "gulp-streamify": "^1.0.2",
-    "gulp-uglify": "^2.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-stream": "^1.14.0",
-    "run-sequence": "^1.2.2",
-    "vinyl-source-stream": "^1.1.0"
+    "@modyqyw/vite-plugin-eslint": "^1.1.0",
+    "@types/chai": "^4.3.0",
+    "@types/geojson": "^7946.0.8",
+    "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "chai": "^4.3.6",
+    "eslint": "^8.12.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^2.7.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "prettier": "^2.6.1",
+    "prettier-plugin-jsdoc": "^0.3.33",
+    "prettier-plugin-md-nocjsp": "^1.2.0",
+    "puppeteer": "^13.5.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3",
+    "vite": "^2.8.6",
+    "vite-plugin-test": "^0.0.5"
   },
-  "dependencies": {}
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,json,htm,html,md}": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint",
+    "*": "prettier -w -u"
+  }
 }

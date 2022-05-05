@@ -31,7 +31,7 @@ export const offset = (geojson: GeoJSON, xOffset: number, yOffset: number) => {
       geojson.features.forEach(feature => offset(feature, xOffset, yOffset));
       break;
     default:
-      throw new Error('geojson-offset: Unknown geojson type.');
+      throw new Error(`geojson-offset: ${geojson.type} is not supported type.`);
   }
   return geojson;
 };

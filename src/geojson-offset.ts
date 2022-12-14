@@ -6,7 +6,11 @@ import type { GeoJSON, Position } from 'geojson';
  * @param xOffset - X-coordinate offset
  * @param yOffset - Y-coordinate offset
  */
-export const offset = (geojson: GeoJSON, xOffset: number, yOffset: number) => {
+export const offset = (
+  geojson: GeoJSON,
+  xOffset: number,
+  yOffset: number
+): GeoJSON => {
   switch (geojson.type) {
     case 'Point':
       pointOffset(geojson.coordinates, xOffset, yOffset);
@@ -47,7 +51,7 @@ export const randomOffset = (
   geojson: GeoJSON,
   xRange: Position,
   yRange: Position
-) => {
+): GeoJSON => {
   const xOffset = xRange[0] + (xRange[1] - xRange[0]) * Math.random();
   const yOffset = yRange[0] + (yRange[1] - yRange[0]) * Math.random();
 

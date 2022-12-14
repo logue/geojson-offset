@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
-import checker from 'vite-plugin-checker';
-import path from 'path';
+import { checker } from 'vite-plugin-checker';
+
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 
@@ -12,7 +13,7 @@ export default defineConfig({
       typescript: true,
       vueTsc: false,
       eslint: {
-        lintCommand: `eslint`, // for example, lint .ts & .tsx
+        lintCommand: `eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint`, // for example, lint .ts & .tsx
       },
     }),
   ],
@@ -20,22 +21,11 @@ export default defineConfig({
   // https://vitejs.dev/config/#build-options
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/geojson-offset.ts'),
+      entry: fileURLToPath(new URL('./src/geojson-offset.ts', import.meta.url)),
       name: 'geojson-offset',
       fileName: format => `geojson-offset.${format}.js`,
     },
-    target: 'es2021',
-    // Minify option
-    // https://vitejs.dev/config/#build-minify
-    /*
-    minify: 'terser',
-    terserOptions: {
-      ecma: 2020,
-      compress: { drop_console: true },
-      mangle: true, // Note `mangle.properties` is `false` by default.
-      module: true,
-      output: { comments: true, beautify: false },
-    },
-    */
+    target: 'esnext',
+    minify: false,
   },
 });

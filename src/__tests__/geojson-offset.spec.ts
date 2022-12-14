@@ -1,8 +1,8 @@
-import { expect } from 'chai';
+import { it, describe, expect } from 'vitest';
 import {
   offset as _offset,
   randomOffset as _randomOffset,
-} from '../src/geojson-offset';
+} from '../geojson-offset';
 import type {
   Feature,
   FeatureCollection,
@@ -14,14 +14,14 @@ const offset = _offset;
 const randomOffset = _randomOffset;
 
 describe('offset()', () => {
-  it('should work with Point Geometry.', () => {
+  it('#1, should work with Point Geometry.', () => {
     const geometry: Point = { type: 'Point', coordinates: [0, 0] };
     offset(geometry, 1, 1);
 
     expect(geometry.coordinates).to.deep.equal([1, 1]);
   });
 
-  it('should work with LineString Geometry.', () => {
+  it('#2, should work with LineString Geometry.', () => {
     const geometry: LineString = {
       type: 'LineString',
       coordinates: [
@@ -37,7 +37,7 @@ describe('offset()', () => {
     ]);
   });
 
-  it('should work with Polygon Geometry.', () => {
+  it('#3, should work with Polygon Geometry.', () => {
     const geometry: Polygon = {
       type: 'Polygon',
       coordinates: [
@@ -59,7 +59,7 @@ describe('offset()', () => {
     ]);
   });
 
-  it('should work with Feature', () => {
+  it('#4, hould work with Feature', () => {
     const feature: Feature<Point> = {
       type: 'Feature',
       geometry: {
@@ -73,8 +73,8 @@ describe('offset()', () => {
     expect(feature.geometry.coordinates).to.deep.equal([1, 1]);
   });
 
-  it('should work with FeatureCollection', () => {
-    const featureCollection: FeatureCollection<any> = {
+  it('#5, should work with FeatureCollection', () => {
+    const featureCollection: FeatureCollection<Point> = {
       type: 'FeatureCollection',
       features: [
         {

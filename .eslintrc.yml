@@ -1,7 +1,7 @@
 root: true
 env:
   browser: true
-  es6: true
+  es2021: true
   node: true
 extends:
   - eslint:recommended
@@ -17,7 +17,6 @@ plugins:
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: latest
-  parser: '@typescript-eslint/parser'
   sourceType: module
   createDefaultProgram: true
   project:
@@ -41,10 +40,8 @@ settings:
     '@typescript-eslint/parser':
       - .ts
       - .tsx
-  import/ignore:
-    - \.test\.ts$
   import/resolver:
-    typescript: {}
+    typescript: true
     alias:
       map:
         - ['@', './src']
@@ -53,6 +50,5 @@ settings:
         - .ts
         - .jsx
         - .tsx
-        - .vue
   vite:
     configPath: ./vite.config.ts

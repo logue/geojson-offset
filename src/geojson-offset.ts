@@ -52,8 +52,10 @@ export const randomOffset = (
   xRange: Position,
   yRange: Position
 ): GeoJSON => {
-  const xOffset = xRange[0] + (xRange[1] - xRange[0]) * Math.random();
-  const yOffset = yRange[0] + (yRange[1] - yRange[0]) * Math.random();
+  const xOffset =
+    (xRange[0] || 0) + ((xRange[1] || 0) - (xRange[0] || 0)) * Math.random();
+  const yOffset =
+    (yRange[0] || 0) + ((yRange[1] || 0) - (yRange[0] || 0)) * Math.random();
 
   return offset(geojson, xOffset, yOffset);
 };

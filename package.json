@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-offset-ts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "description": "Add offset to the coordinates of GeoJSON.",
   "keywords": [
@@ -32,57 +32,60 @@
   },
   "main": "dist/geojson-offset.umd.js",
   "module": "dist/geojson-offset.es.js",
-  "types": "dist/geojson-offset.d.ts",
+  "types": "dist/src/geojson-offset.d.ts",
   "exports": {
     ".": {
       "import": "./dist/geojson-offset.es.js",
       "require": "./dist/geojson-offset.umd.js",
-      "types": "./dist/geojson-offset.d.ts"
+      "types": "./dist/src/geojson-offset.d.ts"
     }
   },
   "files": [
     "dist"
   ],
   "engines": {
-    "node": ">=18.12.1",
+    "node": ">=18.15.0",
     "yarn": ">=1.22.19"
   },
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@3.4.1",
   "sideEffects": false,
   "scripts": {
+    "test": "vitest",
     "clean": "rimraf node_modules/.vite",
-    "type-check": "tsc -p tsconfig.vitest.json --noEmit --composite false",
-    "build": "run-p type-check build-only build-declaration",
+    "type-check": "tsc --noEmit --composite false",
+    "build": "run-p type-check build-only",
+    "build:analyze": "vite build --mode=analyze",
     "build:clean": "rimraf dist",
     "build-only": "vite build",
-    "build-declaration": "tsc -p tsconfig.app.json --composite false --declaration --declarationMap --declarationDir dist",
     "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
-    "test:unit": "vitest --root src/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "devDependencies": {
+    "@tsconfig/node18-strictest-esm": "^1.0.1",
     "@types/geojson": "^7946.0.10",
-    "@types/node": "^18.11.15",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
-    "eslint": "^8.29.0",
+    "@types/node": "^18.15.3",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-typescript": "^3.5.2",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.6.4",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.0.2",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-tsdoc": "^0.2.17",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.9.4",
-    "vite": "^4.0.1",
-    "vite-plugin-checker": "^0.5.2",
-    "vitest": "^0.25.8"
+    "prettier": "^2.8.4",
+    "rimraf": "^4.4.0",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4",
+    "vite-plugin-checker": "^0.5.6",
+    "vite-plugin-dts": "^2.1.0",
+    "vitest": "^0.29.2"
   },
   "husky": {
     "hooks": {
@@ -94,6 +97,7 @@
     "*": "prettier -w -u"
   },
   "resolutions": {
-    "prettier": "^2.8.1"
+    "json5": "^2.2.3",
+    "http-cache-semantics": "^4.1.1"
   }
 }

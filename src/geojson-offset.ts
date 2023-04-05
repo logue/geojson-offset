@@ -24,9 +24,9 @@ export const offset = (
       polygonOffset(geojson.coordinates, xOffset, yOffset);
       break;
     case 'MultiPolygon':
-      geojson.coordinates.forEach(polygon =>
-        polygonOffset(polygon, xOffset, yOffset)
-      );
+      geojson.coordinates.forEach(polygon => {
+        polygonOffset(polygon, xOffset, yOffset);
+      });
       break;
     case 'Feature':
       offset(geojson.geometry, xOffset, yOffset);
@@ -53,9 +53,9 @@ export const randomOffset = (
   yRange: Position
 ): GeoJSON => {
   const xOffset =
-    (xRange[0] || 0) + ((xRange[1] || 0) - (xRange[0] || 0)) * Math.random();
+    (xRange[0] ?? 0) + ((xRange[1] ?? 0) - (xRange[0] ?? 0)) * Math.random();
   const yOffset =
-    (yRange[0] || 0) + ((yRange[1] || 0) - (yRange[0] || 0)) * Math.random();
+    (yRange[0] ?? 0) + ((yRange[1] ?? 0) - (yRange[0] ?? 0)) * Math.random();
 
   return offset(geojson, xOffset, yOffset);
 };
@@ -65,7 +65,7 @@ export const randomOffset = (
  * @param x - Offset X
  * @param y - Offset Y
  */
-const pointOffset = (coordinates: Position, x: number, y: number) => {
+const pointOffset = (coordinates: Position, x: number, y: number): void => {
   coordinates[0] += x;
   coordinates[1] += y;
 };
@@ -75,8 +75,14 @@ const pointOffset = (coordinates: Position, x: number, y: number) => {
  * @param x - Offset X
  * @param y - Offset Y
  */
-const lineStringOffset = (coordinates: Position[], x: number, y: number) => {
-  coordinates.forEach(point => pointOffset(point, x, y));
+const lineStringOffset = (
+  coordinates: Position[],
+  x: number,
+  y: number
+): void => {
+  coordinates.forEach(point => {
+    pointOffset(point, x, y);
+  });
 };
 
 /**
@@ -84,6 +90,12 @@ const lineStringOffset = (coordinates: Position[], x: number, y: number) => {
  * @param x - Offset X
  * @param y - Offset Y
  */
-const polygonOffset = (coordinates: Position[][], x: number, y: number) => {
-  coordinates.forEach(line => lineStringOffset(line, x, y));
+const polygonOffset = (
+  coordinates: Position[][],
+  x: number,
+  y: number
+): void => {
+  coordinates.forEach(line => {
+    lineStringOffset(line, x, y);
+  });
 };

@@ -3,13 +3,7 @@ import {
   offset as _offset,
   randomOffset as _randomOffset,
 } from '../geojson-offset';
-import type {
-  Feature,
-  FeatureCollection,
-  LineString,
-  Point,
-  Polygon,
-} from 'geojson';
+import type { Feature, LineString, Point, Polygon } from 'geojson';
 const offset = _offset;
 const randomOffset = _randomOffset;
 
@@ -74,7 +68,7 @@ describe('offset()', () => {
   });
 
   it('#5, should work with FeatureCollection', () => {
-    const featureCollection: FeatureCollection<Point> = {
+    const featureCollection: any = {
       type: 'FeatureCollection',
       features: [
         {
@@ -83,12 +77,12 @@ describe('offset()', () => {
             type: 'Point',
             coordinates: [0, 0],
           },
-        } as Feature<Point>,
+        },
       ],
     };
 
     offset(featureCollection, 1, 1);
-    expect(featureCollection.features[0].geometry.coordinates).to.deep.equal([
+    expect(featureCollection.features[0]?.geometry.coordinates).to.deep.equal([
       1, 1,
     ]);
   });

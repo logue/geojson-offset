@@ -13,7 +13,7 @@ parserOptions:
   createDefaultProgram: true
   project:
     - ./tsconfig.app.json
-    - ./tsconfig.config.json
+    - ./tsconfig.node.json
     - ./tsconfig.vitest.json
 rules:
   '@typescript-eslint/triple-slash-reference': off

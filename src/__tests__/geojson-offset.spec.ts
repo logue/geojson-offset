@@ -1,11 +1,6 @@
 import { it, describe, expect } from 'vitest';
-import {
-  offset as _offset,
-  randomOffset as _randomOffset,
-} from '../geojson-offset';
+import { offset, randomOffset } from '../geojson-offset';
 import type { Feature, LineString, Point, Polygon } from 'geojson';
-const offset = _offset;
-const randomOffset = _randomOffset;
 
 describe('offset()', () => {
   it('#1, should work with Point Geometry.', () => {

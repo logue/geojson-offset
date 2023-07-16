@@ -22,9 +22,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       checker({
         typescript: true,
         vueTsc: false,
-        eslint: {
-          lintCommand: 'eslint',
-        },
+        // eslint: {lintCommand: 'eslint'},
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts

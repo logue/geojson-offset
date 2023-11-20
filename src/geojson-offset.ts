@@ -93,7 +93,7 @@ const pointOffset = (
  * @param coordinates - LineString coordinates
  * @param x - Offset X
  * @param y - Offset Y
- *  @param z - Offset Z
+ * @param z - Offset Z
  */
 const lineStringOffset = (
   coordinates: Position[],
@@ -110,6 +110,7 @@ const lineStringOffset = (
  * @param coordinates - Polygon coordinates
  * @param x - Offset X
  * @param y - Offset Y
+ * @param z - Offset Z
  */
 const polygonOffset = (
   coordinates: Position[][],

@@ -9,13 +9,6 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {
-    // https://vitejs.dev/config/#server-options
-    server: {
-      fs: {
-        // Allow serving files from one level up to the project root
-        allow: ['..'],
-      },
-    },
     plugins: [
       // vite-plugin-checker
       // https://github.com/fi3ework/vite-plugin-checker
@@ -38,7 +31,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
         fileName: format => `geojson-offset.${format}.js`,
       },
       target: 'esnext',
-      minify: false,
+      // minify: false,
     },
     esbuild: {
       drop: command === 'serve' ? [] : ['console'],

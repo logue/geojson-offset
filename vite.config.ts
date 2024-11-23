@@ -1,11 +1,12 @@
-import { checker } from 'vite-plugin-checker';
-import { defineConfig, type UserConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-
 import { fileURLToPath, URL } from 'node:url';
 
+import { defineConfig, type UserConfig } from 'vite';
+
+import { checker } from 'vite-plugin-checker';
+import dts from 'vite-plugin-dts';
+
 // Export vite config
-export default defineConfig(async ({ command }): Promise<UserConfig> => {
+export default defineConfig(async ({ command }): Promise => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {
@@ -19,7 +20,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
-      dts(),
+      dts({ tsconfigPath: './tsconfig.app.json' }),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options

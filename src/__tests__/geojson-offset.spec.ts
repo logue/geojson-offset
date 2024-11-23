@@ -1,5 +1,7 @@
 import { it, describe, expect } from 'vitest';
+
 import { offset, randomOffset } from '../geojson-offset.js';
+
 import type { Feature, LineString, Point, Polygon } from 'geojson';
 
 describe('offset()', () => {

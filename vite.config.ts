@@ -1,12 +1,11 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig, type UserConfig } from 'vite';
-
 import { checker } from 'vite-plugin-checker';
 import dts from 'vite-plugin-dts';
 
 // Export vite config
-export default defineConfig(async ({ command }): Promise => {
+export default defineConfig(async ({ command }) => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {

@@ -65,15 +65,16 @@ describe('offset()', () => {
   });
 
   it('#5, should work with FeatureCollection', () => {
-    const featureCollection: any = {
-      type: 'FeatureCollection',
+    const featureCollection = {
+      type: 'FeatureCollection' as const,
       features: [
         {
-          type: 'Feature',
+          type: 'Feature' as const,
           geometry: {
-            type: 'Point',
-            coordinates: [0, 0],
+            type: 'Point' as const,
+            coordinates: [0, 0] as [number, number],
           },
+          properties: null,
         },
       ],
     };

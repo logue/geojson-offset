@@ -4,9 +4,9 @@ import type { GeoJSON, Position } from 'geojson';
  * Validates if a GeoJSON object is valid and non-null
  * @param geojson - GeoJSON object to validate
  */
-function validateGeoJSON(
-  geojson: GeoJSON | null | undefined
-): asserts geojson is GeoJSON {
+function validateGeoJSON<T extends GeoJSON>(
+  geojson: T | null | undefined
+): asserts geojson is T {
   if (geojson == null) {
     throw new Error(
       'geojson-offset: GeoJSON object cannot be null or undefined'
@@ -24,14 +24,14 @@ function validateGeoJSON(
  * @param xOffset - X-coordinate offset
  * @param yOffset - Y-coordinate offset
  * @param zOffset - Z-coordinate offset
- * @returns The modified GeoJSON object
+ * @returns The modified GeoJSON object with the same type as input
  */
-export const offset = (
-  geojson: GeoJSON,
+export const offset = <T extends GeoJSON>(
+  geojson: T,
   xOffset: number,
   yOffset: number,
   zOffset?: number
-): GeoJSON => {
+): T => {
   validateGeoJSON(geojson);
 
   if (!Number.isFinite(xOffset) || !Number.isFinite(yOffset)) {
@@ -44,33 +44,51 @@ export const offset = (
 
   switch (geojson.type) {
     case 'Point':
-      pointOffset(geojson.coordinates, xOffset, yOffset, zOffset);
+      pointOffset(
+        (geojson as GeoJSON & { coordinates: Position }).coordinates,
+        xOffset,
+        yOffset,
+        zOffset
+      );
       break;
     case 'MultiPoint':
     case 'LineString':
-      coordinateArrayOffset(geojson.coordinates, xOffset, yOffset, zOffset);
+      coordinateArrayOffset(
+        (geojson as GeoJSON & { coordinates: Position[] }).coordinates,
+        xOffset,
+        yOffset,
+        zOffset
+      );
       break;
     case 'MultiLineString':
     case 'Polygon':
       coordinateNestedArrayOffset(
-        geojson.coordinates,
+        (geojson as GeoJSON & { coordinates: Position[][] }).coordinates,
         xOffset,
         yOffset,
         zOffset
       );
       break;
     case 'MultiPolygon':
-      for (const polygon of geojson.coordinates) {
+      for (const polygon of (
+        geojson as GeoJSON & { coordinates: Position[][][] }
+      ).coordinates) {
         coordinateNestedArrayOffset(polygon, xOffset, yOffset, zOffset);
       }
       break;
     case 'Feature':
-      if (geojson.geometry) {
-        offset(geojson.geometry, xOffset, yOffset, zOffset);
+      if ((geojson as GeoJSON & { geometry: GeoJSON | null }).geometry) {
+        offset(
+          (geojson as GeoJSON & { geometry: GeoJSON }).geometry,
+          xOffset,
+          yOffset,
+          zOffset
+        );
       }
       break;
     case 'FeatureCollection':
-      for (const feature of geojson.features) {
+      for (const feature of (geojson as unknown as { features: GeoJSON[] })
+        .features) {
         offset(feature, xOffset, yOffset, zOffset);
       }
       break;
@@ -89,14 +107,14 @@ export const offset = (
  * @param xRange - X-coordinate offset range [min, max]
  * @param yRange - Y-coordinate offset range [min, max]
  * @param zRange - Z-coordinate offset range [min, max] (optional)
- * @returns The modified GeoJSON object
+ * @returns The modified GeoJSON object with the same type as input
  */
-export const randomOffset = (
-  geojson: GeoJSON,
+export const randomOffset = <T extends GeoJSON>(
+  geojson: T,
   xRange: Position,
   yRange: Position,
   zRange?: Position
-): GeoJSON => {
+): T => {
   if (
     !Array.isArray(xRange) ||
     xRange.length < 2 ||

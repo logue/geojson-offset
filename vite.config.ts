@@ -19,7 +19,11 @@ export default defineConfig(async ({ command }) => {
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
-      dts({ tsconfigPath: './tsconfig.app.json' }),
+      dts({
+        tsconfigPath: './tsconfig.app.json',
+        rollupTypes: true,
+        insertTypesEntry: true,
+      }),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options

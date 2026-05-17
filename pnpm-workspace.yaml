@@ -1,3 +1,9 @@
+overrides:
+  brace-expansion: ^1.1.13
+  flatted: ^3.4.2
+  minimatch: ^3.1.4
+  picomatch: ^4.0.4
+
 allowBuilds:
   unrs-resolver: true
 onlyBuiltDependencies:

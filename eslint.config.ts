@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import eslintConfigPrettier from 'eslint-config-prettier';
 // @ts-ignore
-import pluginImport from 'eslint-plugin-import';
+import pluginImport from 'eslint-plugin-import-x';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -38,11 +38,11 @@ export default defineConfig([
   {
     settings: {
       // This will do the trick
-      'import/parsers': {
+      'import-x/parsers': {
         espree: ['.js', '.cjs', '.mjs'],
         '@typescript-eslint/parser': ['.ts', '.tsx'],
       },
-      'import/resolver': {
+      'import-x/resolver': {
         // You will also need to install and configure the TypeScript resolver
         // See also https://github.com/import-js/eslint-import-resolver-typescript#configuration
         typescript: true,
@@ -57,7 +57,6 @@ export default defineConfig([
       },
     },
     rules: {
-      'import/default': 'off',
       'no-unused-vars': 'off',
       // const lines: string[] = []; style
       '@typescript-eslint/array-type': [
@@ -99,13 +98,13 @@ export default defineConfig([
       // Fix for vite env.d.ts.
       '@typescript-eslint/triple-slash-reference': 'off',
       // Fix for vite
-      'import/namespace': 'off',
-      'import/no-default-export': 'off',
-      'import/no-named-as-default-member': 'off',
-      'import/no-named-as-default': 'off',
+      'import-x/namespace': 'off',
+      'import-x/no-default-export': 'off',
+      'import-x/no-named-as-default-member': 'off',
+      'import-x/no-named-as-default': 'off',
       // Sort Import Order.
       // see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#importorder-enforce-a-convention-in-module-import-order
-      'import/order': [
+      'import-x/order': [
         'error',
         {
           groups: [

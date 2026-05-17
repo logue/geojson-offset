@@ -5,7 +5,7 @@ import { checker } from 'vite-plugin-checker';
 import dts from 'vite-plugin-dts';
 
 // Export vite config
-export default defineConfig(async ({ command }) => {
+export default defineConfig(async ({ command }): Promise<UserConfig> => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {
@@ -15,14 +15,14 @@ export default defineConfig(async ({ command }) => {
       checker({
         typescript: true,
         vueTsc: false,
-        // eslint: {lintCommand: 'eslint'},
+        // eslint: { lintCommand: 'eslint' },
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
       dts({
         tsconfigPath: './tsconfig.app.json',
-        rollupTypes: true,
-        insertTypesEntry: true,
+        outDirs: ['dist'],
+        entryRoot: 'src',
       }),
     ],
     // Build Options
@@ -37,7 +37,8 @@ export default defineConfig(async ({ command }) => {
       target: 'esnext',
       // minify: false,
     },
-    esbuild: {
+    // @ts-expect-error: Vite 8 runtime supports esbuildOptions, but type does not
+    esbuildOptions: {
       drop: command === 'serve' ? [] : ['console'],
     },
   };

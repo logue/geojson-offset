@@ -1,4 +1,7 @@
 import type { GeoJSON, Position } from 'geojson';
+import Meta from './Meta';
+
+export { Meta };
 
 /**
  * Validates if a GeoJSON object is valid and non-null
@@ -35,7 +38,7 @@ export const offset = <T extends GeoJSON>(
   validateGeoJSON(geojson);
 
   if (!Number.isFinite(xOffset) || !Number.isFinite(yOffset)) {
-    throw new Error('geojson-offset: Offset values must be finite numbers');
+    throw new TypeError('geojson-offset: Offset values must be finite numbers');
   }
 
   if (zOffset !== undefined && !Number.isFinite(zOffset)) {

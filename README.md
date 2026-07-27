@@ -13,11 +13,7 @@ This fork is rewritten in typescript.
 ## Installation
 
 ```bash
-npm install geojson-offset-ts
-```
-
-```bash
-yarn add geojson-offset-ts
+pnpm install geojson-offset-ts
 ```
 
 ## Usage
@@ -39,16 +35,16 @@ Noted this function will **UPDATE** the input geojson. If there is a need to ret
 But [TopoJSON](https://github.com/topojson/topojson) does not supported. Please convert to geojson by `topojson.feature` before use.
 
 ```javascript
-import { offset } from 'geojson-offset';
-import { randomOffset } from 'geojson-offset';
+import { offset } from "geojson-offset";
+import { randomOffset } from "geojson-offset";
 
 let geojson = {
-  type: 'FeatureCollection',
+  type: "FeatureCollection",
   features: [
     {
-      type: 'Feature',
+      type: "Feature",
       geometry: {
-        type: 'Point',
+        type: "Point",
         coordinates: [-78, 48],
       },
       properties: {},

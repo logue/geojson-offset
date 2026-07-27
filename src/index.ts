@@ -8,11 +8,11 @@ export { Meta };
  * @param geojson - GeoJSON object to validate
  */
 function validateGeoJSON<T extends GeoJSON>(
-  geojson: T | null | undefined
+  geojson: T | null | undefined,
 ): asserts geojson is T {
   if (geojson == null) {
     throw new Error(
-      'geojson-offset: GeoJSON object cannot be null or undefined'
+      'geojson-offset: GeoJSON object cannot be null or undefined',
     );
   }
   if (typeof geojson !== 'object' || !geojson.type) {
@@ -33,7 +33,7 @@ export const offset = <T extends GeoJSON>(
   geojson: T,
   xOffset: number,
   yOffset: number,
-  zOffset?: number
+  zOffset?: number,
 ): T => {
   validateGeoJSON(geojson);
 
@@ -51,7 +51,7 @@ export const offset = <T extends GeoJSON>(
         (geojson as GeoJSON & { coordinates: Position }).coordinates,
         xOffset,
         yOffset,
-        zOffset
+        zOffset,
       );
       break;
     case 'MultiPoint':
@@ -60,7 +60,7 @@ export const offset = <T extends GeoJSON>(
         (geojson as GeoJSON & { coordinates: Position[] }).coordinates,
         xOffset,
         yOffset,
-        zOffset
+        zOffset,
       );
       break;
     case 'MultiLineString':
@@ -69,7 +69,7 @@ export const offset = <T extends GeoJSON>(
         (geojson as GeoJSON & { coordinates: Position[][] }).coordinates,
         xOffset,
         yOffset,
-        zOffset
+        zOffset,
       );
       break;
     case 'MultiPolygon':
@@ -85,7 +85,7 @@ export const offset = <T extends GeoJSON>(
           (geojson as GeoJSON & { geometry: GeoJSON }).geometry,
           xOffset,
           yOffset,
-          zOffset
+          zOffset,
         );
       }
       break;
@@ -97,7 +97,7 @@ export const offset = <T extends GeoJSON>(
       break;
     default:
       throw new Error(
-        `geojson-offset: ${String((geojson as { type?: string }).type)} is not a supported GeoJSON type`
+        `geojson-offset: ${String((geojson as { type?: string }).type)} is not a supported GeoJSON type`,
       );
   }
   return geojson;
@@ -116,7 +116,7 @@ export const randomOffset = <T extends GeoJSON>(
   geojson: T,
   xRange: Position,
   yRange: Position,
-  zRange?: Position
+  zRange?: Position,
 ): T => {
   if (
     !Array.isArray(xRange) ||
@@ -125,13 +125,13 @@ export const randomOffset = <T extends GeoJSON>(
     yRange.length < 2
   ) {
     throw new Error(
-      'geojson-offset: Range arrays must have at least 2 elements'
+      'geojson-offset: Range arrays must have at least 2 elements',
     );
   }
 
   if (zRange !== undefined && (!Array.isArray(zRange) || zRange.length < 2)) {
     throw new Error(
-      'geojson-offset: Z-range array must have at least 2 elements'
+      'geojson-offset: Z-range array must have at least 2 elements',
     );
   }
 
@@ -161,7 +161,7 @@ const pointOffset = (
   coordinates: Position,
   x: number,
   y: number,
-  z?: number
+  z?: number,
 ): void => {
   coordinates[0] += x;
   coordinates[1] += y;
@@ -181,7 +181,7 @@ const coordinateArrayOffset = (
   coordinates: Position[],
   x: number,
   y: number,
-  z?: number
+  z?: number,
 ): void => {
   for (const point of coordinates) {
     pointOffset(point, x, y, z);
@@ -199,7 +199,7 @@ const coordinateNestedArrayOffset = (
   coordinates: Position[][],
   x: number,
   y: number,
-  z?: number
+  z?: number,
 ): void => {
   for (const ring of coordinates) {
     coordinateArrayOffset(ring, x, y, z);

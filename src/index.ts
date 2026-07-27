@@ -90,9 +90,14 @@ export const offset = <T extends GeoJSON>(
       }
       break;
     case 'FeatureCollection':
-      for (const feature of (geojson as unknown as { features: GeoJSON[] })
-        .features) {
+      for (const feature of (geojson as { features: GeoJSON[] }).features) {
         offset(feature, xOffset, yOffset, zOffset);
+      }
+      break;
+    case 'GeometryCollection':
+      for (const geometry of (geojson as { geometries: GeoJSON[] })
+        .geometries) {
+        offset(geometry, xOffset, yOffset, zOffset);
       }
       break;
     default:

@@ -1,5 +1,11 @@
 import { describe, expect, it } from '@rstest/core';
-import type { Feature, LineString, Point, Polygon } from 'geojson';
+import type {
+  Feature,
+  GeometryCollection,
+  LineString,
+  Point,
+  Polygon,
+} from 'geojson';
 import { offset, randomOffset } from '../index';
 
 describe('offset()', () => {
@@ -81,6 +87,36 @@ describe('offset()', () => {
     expect(featureCollection.features[0]?.geometry.coordinates).to.deep.equal([
       1, 1,
     ]);
+  });
+
+  it('#6, should work with GeometryCollection', () => {
+    const geometryCollection: GeometryCollection = {
+      type: 'GeometryCollection',
+      geometries: [
+        { type: 'Point', coordinates: [0, 0] },
+        {
+          type: 'LineString',
+          coordinates: [
+            [0, 0],
+            [1, 1],
+          ],
+        },
+      ],
+    };
+
+    offset(geometryCollection, 1, 1);
+
+    expect(geometryCollection.geometries[0]).to.deep.equal({
+      type: 'Point',
+      coordinates: [1, 1],
+    });
+    expect(geometryCollection.geometries[1]).to.deep.equal({
+      type: 'LineString',
+      coordinates: [
+        [1, 1],
+        [2, 2],
+      ],
+    });
   });
 });
 

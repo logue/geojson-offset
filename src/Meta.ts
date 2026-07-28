@@ -1,7 +1,4 @@
-interface MetaInterface {
-  version: string;
-  date: string;
-}
+import type { MetaInterface } from '@/interfaces/MetaInterface';
 
 const meta: MetaInterface = {
   version: __APP_VERSION__,

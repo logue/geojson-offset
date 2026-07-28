@@ -8,7 +8,7 @@ You are an expert in JavaScript, Rspack, Rsbuild, Rslib, Rstest, and library dev
 - **Language**: TypeScript 7
 - **Package manager**: pnpm (do not use npm or yarn)
 
-**Last updated**: 2026-07-23
+**Last updated**: 2026-07-28
 **Verified with**: `package.json` in this repository
 
 ## Tool Versions
@@ -19,10 +19,14 @@ This guide assumes:
 
 - TypeScript 7.0.2 or later
 - Rslib 0.23.2 or later
-- Rsbuild 2.1.7 or later
 - Rstest 0.11.3 or later
 
 If you encounter version-related issues, check `package.json` and this document's last update date.
+
+## Dependency Management
+
+- `minimumReleaseAge: 0` is set in `pnpm-workspace.yaml` to prevent unpredictable auto-injection of `minimumReleaseAgeExclude`
+- This ensures version resolution is deterministic and reproducible across projects
 
 ## VS Code Setup
 

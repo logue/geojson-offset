@@ -1,13 +1,12 @@
 # Local
 .DS_Store
+Thumbs.db
+.env
 *.local
 *.log*
-
-# Dist
-node_modules
-dist/
-storybook-static
-docs/
+.claude
+.husky
+.rslib
 
 # IDE
 .vscode/*
@@ -15,3 +14,7 @@ docs/
 !.vscode/settings.json
 .idea
 
+# Dist
+node_modules
+dist/
+docs/

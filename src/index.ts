@@ -1,7 +1,6 @@
 import type { GeoJSON, Position } from 'geojson';
-import Meta from './Meta';
 
-export { Meta };
+export { Meta } from './types/Meta';
 
 /**
  * Validates if a GeoJSON object is valid and non-null
@@ -11,12 +10,12 @@ function validateGeoJSON<T extends GeoJSON>(
   geojson: T | null | undefined,
 ): asserts geojson is T {
   if (geojson == null) {
-    throw new Error(
-      'geojson-offset: GeoJSON object cannot be null or undefined',
+    throw new TypeError(
+      '[geojson-offset] GeoJSON object cannot be null or undefined',
     );
   }
   if (typeof geojson !== 'object' || !geojson.type) {
-    throw new Error('geojson-offset: Invalid GeoJSON object');
+    throw new TypeError('[geojson-offset] Invalid GeoJSON object');
   }
 }
 
@@ -38,11 +37,15 @@ export const offset = <T extends GeoJSON>(
   validateGeoJSON(geojson);
 
   if (!Number.isFinite(xOffset) || !Number.isFinite(yOffset)) {
-    throw new TypeError('geojson-offset: Offset values must be finite numbers');
+    throw new RangeError(
+      '[geojson-offset] Offset values must be finite numbers',
+    );
   }
 
   if (zOffset !== undefined && !Number.isFinite(zOffset)) {
-    throw new Error('geojson-offset: Z-offset value must be a finite number');
+    throw new RangeError(
+      '[geojson-offset] Z-offset value must be a finite number',
+    );
   }
 
   switch (geojson.type) {
@@ -101,8 +104,8 @@ export const offset = <T extends GeoJSON>(
       }
       break;
     default:
-      throw new Error(
-        `geojson-offset: ${String((geojson as { type?: string }).type)} is not a supported GeoJSON type`,
+      throw new TypeError(
+        `[geojson-offset] ${String((geojson as { type?: string }).type)} is not a supported GeoJSON type`,
       );
   }
   return geojson;
@@ -129,14 +132,14 @@ export const randomOffset = <T extends GeoJSON>(
     !Array.isArray(yRange) ||
     yRange.length < 2
   ) {
-    throw new Error(
-      'geojson-offset: Range arrays must have at least 2 elements',
+    throw new RangeError(
+      '[geojson-offset] Range arrays must have at least 2 elements',
     );
   }
 
   if (zRange !== undefined && (!Array.isArray(zRange) || zRange.length < 2)) {
-    throw new Error(
-      'geojson-offset: Z-range array must have at least 2 elements',
+    throw new RangeError(
+      '[geojson-offset] Z-range array must have at least 2 elements',
     );
   }
 
@@ -210,3 +213,5 @@ const coordinateNestedArrayOffset = (
     coordinateArrayOffset(ring, x, y, z);
   }
 };
+
+export default offset;

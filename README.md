@@ -6,7 +6,7 @@ English | [日本語](README.ja.md)
 [![NPM Downloads](https://img.shields.io/npm/dm/geojson-offset-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-offset-ts)
 [![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/geojson-offset-ts/badge)](https://www.jsdelivr.com/package/npm/geojson-offset-ts)
 [![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-offset-ts/file/README.md)
-[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-offset)
+[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-offset-ts)
 [![X Follow](https://img.shields.io/twitter/follow/logue256?style=plastic)](https://twitter.com/logue256)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)
 

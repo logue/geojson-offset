@@ -50,7 +50,7 @@
   "engines": {
     "node": ">=22.19.0"
   },
-  "packageManager": "pnpm@11.17.0",
+  "packageManager": "pnpm@11.18.0",
   "sideEffects": false,
   "scripts": {
     "dev": "rslib --watch",
@@ -72,8 +72,8 @@
     "@microsoft/api-extractor": "^7.58.12",
     "@rslib/core": "^0.23.2",
     "@rslint/core": "^0.7.2",
-    "@rstest/adapter-rslib": "^0.11.4",
-    "@rstest/core": "^0.11.4",
+    "@rstest/adapter-rslib": "^0.11.5",
+    "@rstest/core": "^0.11.5",
     "@tsconfig/node-lts": "^24.0.0",
     "@types/node": "^26.1.2",
     "husky": "^9.1.7",

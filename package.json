@@ -54,7 +54,7 @@
   "sideEffects": false,
   "scripts": {
     "dev": "rslib --watch",
-    "lint": "run-s lint:*",
+    "lint": "run-s 'lint:*' -- ",
     "lint:rslint": "rslint .",
     "lint:biome": "biome check --write",
     "build": "rslib build",
@@ -62,7 +62,8 @@
     "test:watch": "rstest --watch",
     "clean": "rimraf dist docs",
     "clean:hard": "rimraf dist node_modules/.tmp node_modules/.cache",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "prepare": "husky"
   },
   "peerDependencies": {
     "@types/geojson": ">=7946.0.16"

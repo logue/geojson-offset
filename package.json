@@ -1,9 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-offset-ts",
-  "version": "0.4.1",
-  "license": "MIT",
-  "type": "module",
+  "version": "0.4.2",
   "description": "Add offset to the coordinates of GeoJSON.",
   "keywords": [
     "geojson",
@@ -12,6 +10,15 @@
     "coordinate",
     "offset"
   ],
+  "homepage": "https://github.com/logue/geojson-offset",
+  "bugs": {
+    "url": "https://github.com/logue/geojson-offset/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:logue/geojson-offset.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "Logue",
     "email": "logue@hotmail.co.jp",
@@ -23,19 +30,8 @@
       "email": "haholiang.yu@outlook.com"
     }
   ],
-  "homepage": "https://github.com/logue/geojson-offset",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:logue/geojson-offset.git"
-  },
-  "bugs": {
-    "url": "https://github.com/logue/geojson-offset/issues"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -47,43 +43,44 @@
     },
     "./package.json": "./package.json"
   },
-  "engines": {
-    "node": ">=22.19.0"
-  },
-  "packageManager": "pnpm@11.18.0",
-  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "dev": "rslib --watch",
-    "lint": "run-s 'lint:*' -- ",
-    "lint:rslint": "rslint .",
-    "lint:biome": "biome check --write",
-    "build": "rslib build",
-    "test": "rstest",
-    "test:watch": "rstest --watch",
-    "clean": "rimraf dist docs",
-    "clean:hard": "rimraf dist node_modules/.tmp node_modules/.cache",
+    "dev": "rs dev",
+    "lint": "run-s 'lint:*' --",
+    "lint:rslint": "rs lint . --fix",
+    "lint:prettier": "rs fmt .",
+    "analyze": "RSDOCTOR=true rs lib",
+    "test": "rs test",
+    "test:watch": "rs test --watch",
+    "clean": "rimraf demo dist docs",
+    "clean:hard": "rimraf demo dist docs node_modules/.tmp node_modules/.cache",
+    "build": "rs lib",
+    "preview": "rs preview",
     "version": "auto-changelog -p && git add CHANGELOG.md",
-    "prepare": "husky"
+    "prepare": "rs hooks"
+  },
+  "devDependencies": {
+    "@eslint/markdown": "^8.0.3",
+    "@rsbuild/plugin-type-check": "^1.6.0",
+    "@rsdoctor/cli": "^1.6.4",
+    "@rsdoctor/core": "^1.6.4",
+    "@rsdoctor/rspack-plugin": "^1.6.4",
+    "@rstest/core": "^0.12.3",
+    "@tsconfig/node-lts": "^24.0.1",
+    "@types/node": "^26.6.4",
+    "eslint-config-prettier": "^10.1.8",
+    "happy-dom": "^20.14.5",
+    "npm-run-all2": "^9.0.3",
+    "rimraf": "^6.1.3",
+    "rstack": "^0.8.0",
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@types/geojson": ">=7946.0.16"
   },
-  "devDependencies": {
-    "@biomejs/biome": "2.5.6",
-    "@microsoft/api-extractor": "^7.58.12",
-    "@rslib/core": "^0.23.2",
-    "@rslint/core": "^0.7.2",
-    "@rstest/adapter-rslib": "^0.11.5",
-    "@rstest/core": "^0.11.5",
-    "@tsconfig/node-lts": "^24.0.0",
-    "@types/node": "^26.1.2",
-    "husky": "^9.1.7",
-    "lint-staged": "^17.2.0",
-    "npm-run-all2": "^9.0.3",
-    "rimraf": "^6.1.3",
-    "typescript": "7.0.2"
-  },
-  "lint-staged": {
-    "*": "pnpm lint"
-  }
+  "packageManager": "pnpm@12.8.1"
 }

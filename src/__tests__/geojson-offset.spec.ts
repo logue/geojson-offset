@@ -1,12 +1,14 @@
 import { describe, expect, it } from '@rstest/core';
+
+import { offset, randomOffset } from '../index';
+
 import type {
   Feature,
   GeometryCollection,
   LineString,
   Point,
-  Polygon,
+  Polygon
 } from 'geojson';
-import { offset, randomOffset } from '../index';
 
 describe('offset()', () => {
   it('#1, should work with Point Geometry.', () => {
@@ -21,14 +23,14 @@ describe('offset()', () => {
       type: 'LineString',
       coordinates: [
         [0, 0],
-        [1, 1],
-      ],
+        [1, 1]
+      ]
     };
     offset(geometry, 1, 1);
 
     expect(geometry.coordinates).to.deep.equal([
       [1, 1],
-      [2, 2],
+      [2, 2]
     ]);
   });
 
@@ -39,9 +41,9 @@ describe('offset()', () => {
         [
           [0, 0],
           [1, 1],
-          [0, 1],
-        ],
-      ],
+          [0, 1]
+        ]
+      ]
     };
     offset(geometry, 1, 1);
 
@@ -49,8 +51,8 @@ describe('offset()', () => {
       [
         [1, 1],
         [2, 2],
-        [1, 2],
-      ],
+        [1, 2]
+      ]
     ]);
   });
 
@@ -59,9 +61,9 @@ describe('offset()', () => {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [0, 0],
+        coordinates: [0, 0]
       },
-      properties: null,
+      properties: {}
     };
 
     offset(feature, 1, 1);
@@ -76,16 +78,16 @@ describe('offset()', () => {
           type: 'Feature' as const,
           geometry: {
             type: 'Point' as const,
-            coordinates: [0, 0] as [number, number],
+            coordinates: [0, 0] as [number, number]
           },
-          properties: null,
-        },
-      ],
+          properties: {}
+        }
+      ]
     };
 
     offset(featureCollection, 1, 1);
     expect(featureCollection.features[0]?.geometry.coordinates).to.deep.equal([
-      1, 1,
+      1, 1
     ]);
   });
 
@@ -98,24 +100,24 @@ describe('offset()', () => {
           type: 'LineString',
           coordinates: [
             [0, 0],
-            [1, 1],
-          ],
-        },
-      ],
+            [1, 1]
+          ]
+        }
+      ]
     };
 
     offset(geometryCollection, 1, 1);
 
     expect(geometryCollection.geometries[0]).to.deep.equal({
       type: 'Point',
-      coordinates: [1, 1],
+      coordinates: [1, 1]
     });
     expect(geometryCollection.geometries[1]).to.deep.equal({
       type: 'LineString',
       coordinates: [
         [1, 1],
-        [2, 2],
-      ],
+        [2, 2]
+      ]
     });
   });
 });

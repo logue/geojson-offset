@@ -24,20 +24,20 @@ pnpm add geojson-offset-ts
 > The functions mutate the input object in place. If you need to preserve the original geometry, create a copy before calling them.
 
 ```ts
-import { offset, randomOffset } from "geojson-offset-ts";
+import { offset, randomOffset } from 'geojson-offset-ts';
 
 const geojson = {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
+      type: 'Feature',
       geometry: {
-        type: "Point",
-        coordinates: [-78, 48],
+        type: 'Point',
+        coordinates: [-78, 48]
       },
-      properties: {},
-    },
-  ],
+      properties: {}
+    }
+  ]
 };
 
 offset(geojson, -1, 1);

@@ -1,16 +1,20 @@
 # AGENTS.md
 
-You are an expert in TypeScript, Rslib, Rstest, and library development. You write maintainable, performant, and accessible code.
+This project uses Rstack CLI as its JS toolchain:
+
+- Read the docs linked from `node_modules/rstack/docs/llms.txt` when needed
+- Online docs: <https://rstack.rs/llms.txt>
+- Run `rs -h` for CLI help
 
 ## Setup & Overview
 
-- **Build tool**: Rslib (for build library), Rsbuild (for demo site)
-- **Linter**: Rslint and Biome
+- **Build tools**: Rslib (library)
+- **Linter**: Rslint and Prettier
 - **Testing**: Rstest
 - **Language**: TypeScript 7
 - **Package manager**: pnpm (do not use npm or yarn)
 
-**Last updated**: 2026-07-29
+**Last updated**: 2026-10-03
 **Verified with**: `package.json` in this repository
 
 ### Tool Versions
@@ -20,8 +24,7 @@ See `package.json` for authoritative dependency versions.
 This guide assumes:
 
 - TypeScript 7.0.2 or later
-- Rslib 0.23.2 or later
-- Rstest 0.11.4 or later
+- rstack 0.8.0 or later
 
 **If you encounter version-related issues, check `package.json` directly—it is the source of truth.**
 
@@ -45,175 +48,158 @@ When you open the project in VS Code, you'll be prompted to install recommended 
 
 ### Project Structure
 
-This project uses this complementary build tool:
+This project uses the Rstack CLI as a unified interface for the library,
+demo application, tests, and linting:
 
-- **Rslib** - Builds the library for distribution (ESM, CJS, etc.)
+- **Rslib** - Builds the library for distribution (ESM and UMD)
   - Command: `pnpm run build`
   - Output: `dist/` (published to npm)
-  - Configuration: `rslib.config.ts`, `tsconfig.rslib.json`
+- **Rstest** - Runs the test suite
+  - Command: `pnpm run test`
+- **Rslint and Pretiier** - Lints and formats the project
+  - Command: `pnpm run lint`
+
+All tool configuration is defined in `rstack.config.ts` through
+`define.app`, `define.doc`, `define.lib`, `define.test`, and `define.lint`.
+TypeScript compiler options remain separated by use case:
+
+- `tsconfig.rslib.json` - Library source and declaration generation
+- `tsconfig.rstest.json` - Tests
 
 ### Development Workflow
 
-- `pnpm run dev` - Watch mode for library
+- `pnpm run dev` - Start the demo development server with hot reload
+- `pnpm run build` - Build the library for production
+- `pnpm run preview` - Preview the built demo application
 
 ## Commands
 
-- `pnpm run build` - Build the library for production
-- `pnpm run dev` - Watch mode for library
-- `pnpm run preview` - Preview the built demo site
-- `pnpm run test` - Run tests
-- `pnpm run test:watch` - Watch mode for tests
+- `pnpm run dev` - Start the demo development server with hot reload
 - `pnpm run lint` - Lint and format all code (Biome + Rslint)
+- `pnpm run analyze` - Analyze library build artifacts
+- `pnpm run test` - Run tests at once
+- `pnpm run test:watch` - Watch mode for tests
 - `pnpm run clean` - Remove build artifacts
-- `pnpm run clean:hard` - Remove build artifact and build caches.
+- `pnpm run clean:hard` - Remove build artifact and build caches
 
-## Documentation
+### Rsdoctor Analysis (AI Internal Use)
 
-- Rslib: <https://rslib.rs/llms.txt>
-- Rslint: <https://rslint.rs/llms.txt>
-- Rstest: <https://rstest.rs/llms.txt>
+Use Rsdoctor analysis internally to support evidence-based bundle optimization.
+Keep this workflow read-only unless the user explicitly asks for setup or code
+changes.
 
-## Code Style
+- First locate a real `rsdoctor-data.json` in `dist/`, `output/`, `static/`,
+  `.rsdoctor/`, or via one bounded `rg --files` search excluding
+  `node_modules` and `.git`.
+- Do not run `rsdoctor-agent` when the data file is missing. Ask for its path,
+  or generate it with `pnpm run analyze` when generation is required.
+- `rsdoctor` from `@rsdoctor/cli` is only the browser viewer. It is not a
+  substitute for the data-fetching `rsdoctor-agent` from
+  `@rsdoctor/agent-cli`.
+- This repository uses `@rsdoctor/rspack-plugin` 1.6.x. If JSON output is not
+  produced by the normal script, use `RSDOCTOR_OUTPUT=json RSDOCTOR=true pnpm run build`.
+  For plugin versions below 1.5.11, configure brief JSON output instead of
+  using `RSDOCTOR_OUTPUT=json`.
+- Validate that the generated data is valid JSON before analysis. A
+  `.rsdoctor/manifest.json` file alone is only a viewer index.
+- Fetch only the default evidence first: build cost, top assets, top packages,
+  duplicate packages, cross-chunk duplication, and retained tree-shaking
+  modules. Bound output with filters, pagination, and limits.
+- Rank recommendations by measured impact. Trace issuer/reference chains,
+  inspect bailout reasons, change configuration, or rerun builds only as an
+  explicit follow-up.
+- Present findings as high-priority issues, proposed solutions, optional
+  reference-chain follow-ups, and remaining deep-dive categories. Include
+  concrete sizes, times, counts, paths, or rule codes where available.
 
-### TypeScript Rules
+For command details and version-specific generation rules, read
+`.agents/skills/rsdoctor-analysis/SKILL.md` and its references.
 
-- **No `any`** - use `unknown` and narrow with type guards.
-- **Explicit return types** on exported functions.
-- **Underscore prefix** for intentionally unused variables: `_value`, `_error`.
-- **Array type syntax**: `string[]` not `Array<string>`.
-- **Generic constructors**: left-hand side style - `const map: Map<string, User> = new Map()`.
-- **Do not ignore TypeScript errors**
-- **Do not use `@ts-ignore` without good reason**
+### Rspress Documentation
+
+The documentation site is configured with `define.doc()` in `rstack.config.ts`.
+Its source root is `src-docs/` and its generated output is `docs/`; keep these
+paths aligned with the Rspress config and the package scripts. When updating the
+documentation site, follow `.agents/skills/rspress-docs-generator/SKILL.md` and
+validate changes with `pnpm run build:docs`.
 
 ### Directory Structure & File Organization
 
 - **`types/`** — Type-only definitions:
-  - Type aliases and union types (preferred over enums)
-  - Interface-like object shapes
-  - Generic types
-  - Default values paired with type definitions (see Type Pattern below)
+  - `.d.ts`: Type aliases, interfaces, generic types (no values)
+  - `.ts`: Type definitions paired with default values or constants
 - **`interfaces/`** — Use only when:
   - Multiple inheritance levels needed
   - Clear contract inheritance matters
 
-### Type Definition Pattern
-
-Prefer `type` over `interface` for most cases. Consolidate type and default values together:
-
-```ts
-// types/Options.ts
-export type Options = {
-  someText: string;
-  someNumber: number;
-};
-
-/** Default configuration */
-export const Options: Options = {
-  someText: "white",
-  someNumber: 1,
-};
-```
-
-**Default value naming:** The variable name should match the type name (`import { Options }`).
-
-**Why `type` over `interface`:**
-
-- Tree-shaking friendly (especially for unions)
-- Single import point for type and default
-- Default values are visibly paired
-- Cleaner for simple contracts
-
-**Use `interface` when:**
-
-- Deep inheritance hierarchy (3+ levels)
-- Multiple implementations needed
-- Inheritance clarity is paramount
-
-### Union Types Over Enums
-
-Avoid `enum`. Use union types:
-
-```ts
-export type NoiseType = "blue" | "brown" | "green" | ...;
-export const noiseTypes: NoiseType[] = ["blue", "brown", ...];
-export const NoiseType: Record<NoiseType, NoiseGenerator> = { blue, brown, ... };
-```
-
-#### Formatting
-
-- Use Biome
-- Use Rslint for linting
-- **Indentation**: Two spaces
-- **Semicolons**: Use semicolons
-- **Quotes**: Double quotes
-
-### Naming Conventions
-
-- **Types/Interfaces**: `PascalCase` (e.g., `RspackOptions`)
-- **Classes**: `PascalCase` (e.g., `Compiler`)
-- **Functions**: `camelCase` (e.g., `createCompiler`)
-- **Variables**: `camelCase` (e.g., `compiler`)
-- **Constants**: `SCREAMING_SNAKE_CASE`
-- **Files**: `camelCase.ts` or `PascalCase.ts` (match main export)
-
-### Async/Await Patterns
-
-- Use `async/await` over promises
-- Handle errors with try/catch
-- Use `Promise.all` for parallel operations
-
 ### Facade Pattern: Hiding Complexity
 
-This project follows the Facade pattern: the public API is simple and focused,
-while internal complexity is deliberately hidden.
+This project employs the **Facade pattern**. The public API should be simple and focused;
+internal complexity is intentionally hidden.
 
 - Users interact with high-level operations (read/write files, transform data)
 - Implementation details (binary parsing, encoding, version handling) are internal
-- This reduces cognitive load on users and provides stable contracts
+- This reduces cognitive load and provides stable contracts
 
 Example: [`symbol-art-parser`](https://github.com/logue/symbol-art-parser) exposes only `.sar` ↔ JSON conversions, hiding binary protocol details.
 
-## Patterns & Best Practices
-
-### Code Documentation & Comments
-
-- Use `//` for single-line
-- Use `/* */` for multi-line
-- All exported functions, types, interfaces, and global variables must have JSDoc
-- Non-exported implementation details can skip JSDoc
-- Use `@param`, `@returns`, `@example`, `@throws` as needed
-- Explain "why" not "what"
-
-### Error Handling
-
-- **Use standard exceptions** (`TypeError`, `RangeError`, `Error`) for input validation and simple errors
-  - `TypeError`: When argument type is incorrect
-  - `RangeError`: When argument value is out of valid range
-  - `Error`: For unexpected/unrecoverable situations
-
-- **Define custom exceptions** only when:
-  - The error has actionable context (error codes, recovery suggestions)
-  - Downstream code needs to catch and handle specific failures
-  - Multiple error conditions require differentiation
-
 ### API Design Principle
 
-Prioritize the external API clarity over internal implementation patterns.
+Prioritize external API clarity over internal implementation patterns.
 Hidden complexity is acceptable if it provides users with simple, intuitive interfaces.
 
 This may include using the same identifier for both type and value when it improves ergonomics.
 
 ## Testing
 
-Testing program uses rstest.
+This project uses **Rstest** for testing.
 
-- Run `pnpm run test` to run tests
-- Run `pnpm run test:watch` to run tests in watch mode
+### Running Tests
+
+- `pnpm run test` - Run all tests
+- `pnpm run test:watch` - Run tests in watch mode
+
+### Test Structure & Naming
+
+Tests are co-located with source code in `__tests__/` directories:
+
+```plain
+src/
+  components/
+    Button.ts
+    __tests__/
+      Button.spec.ts
+  utils/
+    helpers.ts
+    __tests__/
+      helpers.spec.ts
+```
+
+Naming convention:
+
+- Test files: `[SourceFile].spec.ts`
+- Co-location makes tests easy to find and maintain
 
 ### Test Code Style
 
 - Use descriptive test names
 - Group related tests with `describe`
 - Use `it` or `test` for individual cases
-- Clean up resources after tests (afterEach, afterAll)
+- Clean up resources after tests (`afterEach`, `afterAll`)
 - Follow the same TypeScript rules as non-test code
+
+## Markdown Generation
+
+When generating markdown (documentation, AGENTS.md, etc.):
+
+- **Preserve code formatting**: `__` should NOT be converted to bold
+  within inline code or code blocks
+- Use backticks for inline code: `` `__tests__` ``
+- Code blocks will preserve literal `__` as-is
+- This applies to Node.js globals (`__dirname`, `__filename`)
+  and directory names (`__tests__`, `__mocks__`, etc.)
+
+Example:
+
+- ✓ Tests in `` `__tests__` `` directories
+- ✗ Tests in `**tests**` directories (incorrect)

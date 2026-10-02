@@ -40,20 +40,20 @@ pnpm add geojson-offset-ts
 > この関数は入力オブジェクトをその場で変更します。元のジオメトリを保持したい場合は、呼び出し前にコピーを作成してください。
 
 ```ts
-import { offset, randomOffset } from "geojson-offset-ts";
+import { offset, randomOffset } from 'geojson-offset-ts';
 
 const geojson = {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
+      type: 'Feature',
       geometry: {
-        type: "Point",
-        coordinates: [-78, 48],
+        type: 'Point',
+        coordinates: [-78, 48]
       },
-      properties: {},
-    },
-  ],
+      properties: {}
+    }
+  ]
 };
 
 offset(geojson, -1, 1);
